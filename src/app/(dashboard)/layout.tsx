@@ -1,19 +1,20 @@
-"use client";
+﻿"use client";
 
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { Sidebar } from "@/components/layout/Sidebar";
 import { Header } from "@/components/layout/Header";
 import { useAuth } from "@/components/providers/AuthProvider";
 
-/**
- * `middleware.ts` already blocks token-less requests before this ever
- * renders — this loading gate handles the remaining case: a token cookie
- * exists but AuthProvider's `GET /admin/auth/me` hasn't resolved yet (or
- * resolves to "invalid", in which case it redirects to /login itself).
- * Renders nothing but a full-screen spinner rather than a flash of
- * dashboard chrome before that resolves.
- */
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
+  const router = useRouter();
   const { loading, isAuthenticated } = useAuth();
+
+  useEffect(() => {
+    if (!loading && !isAuthenticated) {
+      router.replace("/login");
+    }
+  }, [loading, isAuthenticated, router]);
 
   if (loading || !isAuthenticated) {
     return (
@@ -28,7 +29,9 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       <Sidebar />
       <div className="lg:ms-[260px]">
         <Header />
-        <main className="mx-auto max-w-[1600px] px-4 py-6 sm:px-6 lg:px-8">{children}</main>
+        <main className="mx-auto max-w-[1600px] px-4 py-6 sm:px-6 lg:px-8">
+          {children}
+        </main>
       </div>
     </div>
   );
