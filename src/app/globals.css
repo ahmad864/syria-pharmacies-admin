@@ -1,0 +1,73 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --surface: 246 248 247;
+  --surface-raised: 255 255 255;
+  --surface-border: 227 232 230;
+  --surface-muted: 238 242 240;
+  --ink: 20 32 29;
+  --ink-muted: 91 107 103;
+  --ink-faint: 147 161 157;
+}
+
+.dark {
+  --surface: 14 21 19;
+  --surface-raised: 22 32 29;
+  --surface-border: 34 48 43;
+  --surface-muted: 27 38 34;
+  --ink: 237 243 241;
+  --ink-muted: 154 170 165;
+  --ink-faint: 103 122 116;
+}
+
+* {
+  border-color: rgb(var(--surface-border));
+}
+
+html {
+  color-scheme: light;
+}
+html.dark {
+  color-scheme: dark;
+}
+
+body {
+  background-color: rgb(var(--surface));
+  color: rgb(var(--ink));
+}
+
+/* Thin, calm scrollbars that fit the clinical tone of the dashboard */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgb(var(--surface-border));
+  border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgb(var(--ink-faint));
+}
+
+.skeleton {
+  background-image: linear-gradient(
+    90deg,
+    rgb(var(--surface-muted)) 25%,
+    rgb(var(--surface-border)) 37%,
+    rgb(var(--surface-muted)) 63%
+  );
+  background-size: 400% 100%;
+}
+
+/* Leaflet map container needs an explicit height + our border radius */
+.leaflet-container {
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  font-family: inherit;
+}
